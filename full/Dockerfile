@@ -1,7 +1,7 @@
 FROM ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder-lite:latest
 
-ARG RUST_STABLE_VERSION=1.75.0
-ARG RUST_NIGHTLY_VERSION=nightly-2023-11-10
+ARG RUST_STABLE_VERSION=1.79.0
+ARG RUST_NIGHTLY_VERSION=nightly-2024-06-13
 
 ENV RUST_STABLE=$RUST_STABLE_VERSION
 ENV RUST_NIGHTLY=$RUST_NIGHTLY_VERSION
@@ -43,7 +43,8 @@ RUN pip3 install ledgerwallet==0.5.1
 RUN apk del python_build_deps
 
 # Add cargo ledger
-RUN cargo +$RUST_STABLE_VERSION install --version 1.5.1 cargo-ledger
+# RUN cargo +$RUST_STABLE_VERSION install --version 1.5.1 cargo-ledger
+RUN cargo +$RUST_STABLE_VERSION install --git https://github.com/LedgerHQ/ledger-device-rust-sdk cargo-ledger
 
 # Setup cargo ledger (install JSON target files and custom link script) for nightly
 RUN cargo +$RUST_NIGHTLY_VERSION ledger setup
